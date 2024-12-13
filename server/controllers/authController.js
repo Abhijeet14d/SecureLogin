@@ -4,7 +4,6 @@ import { generateTokenAndsetCookie } from "../utils/generateTokenAndsetCookie.js
 
 export const signup = async (req,res) =>{
     const { email, password, name } = req.body;
-    console.log(req.body);
     
     try{
         // all fields filled
@@ -38,7 +37,7 @@ export const signup = async (req,res) =>{
         generateTokenAndsetCookie(res, user._id);
         
         res.status(201).json({
-            sucess: true,
+            success: true,
             message: "user created",
             user: {
                 ...user._doc,
@@ -48,7 +47,7 @@ export const signup = async (req,res) =>{
     }catch(err){
         console.log("Error ", err.message);
         
-        res.status(400).json({ sucess: false, message: err.message});
+        res.status(400).json({ success: false, message: err.message});
         
     }
 };
