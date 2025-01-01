@@ -3,11 +3,13 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 // Create a transporter
+
+
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
     user: 'singha17200@gmail.com', // Your email address
-    pass: 'bzyl pbih emtz pwkw', // App password
+    pass: 'bzylpbihemtzpwkw', // App password
   },
 });
 
@@ -20,7 +22,7 @@ transporter.verify((error, success) => {
   }
 });
 
-const sendEmail = async (to, subject, text, html) => {
+export const sendEmail = async (to, subject, text, html) => {
   try {
     const mailOptions = {
       from: 'singha17200@gmail.com', // Sender address
@@ -36,12 +38,3 @@ const sendEmail = async (to, subject, text, html) => {
     console.error('Error sending email:', error);
   }
 };
-
-// Example usage
-sendEmail(
-  'abhijeetsingh28004@gmail.com', // Recipient email address
-  'Test Email', // Subject line
-  'This is a test email sent from Node.js', // Plain text body
-  '<b>This is a test email sent from Node.js</b>' // HTML body (optional)
-);
-

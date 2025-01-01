@@ -1,6 +1,7 @@
 import { User } from "../models/userModel.js";
 import bcrypt from "bcryptjs";
 import { generateTokenAndsetCookie } from "../utils/generateTokenAndsetCookie.js";
+import { sendverificationEmail } from "../mail/email.js";
 
 export const signup = async (req,res) =>{
     const { email, password, name } = req.body;
@@ -35,6 +36,9 @@ export const signup = async (req,res) =>{
 
         // jwt auth
         generateTokenAndsetCookie(res, user._id);
+
+        // email verification
+        sendverificationEmail(user.email, user.verificationToken);
         
         res.status(201).json({
             success: true,
