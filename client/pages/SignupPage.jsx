@@ -9,8 +9,8 @@ const SignupPage = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const handleSignup = ()=>{
-
+    const handleSignup = async (e)=>{
+        e.preventDefault();
     }
   return (
     
@@ -20,7 +20,7 @@ const SignupPage = () => {
         transition={{ duration: 0.5 }}
         className='max-w-md w-full bg-gray-800 bg-opacity-50 backdrop-filter backdrop-blur-xl rounded-2xl shadow-xl overflow-hidden'
     >
-        <div className='p-4'>
+        <div className='p-8'>
             <h2 className='text-3xl font-bold mb-6 text-center bg-gradient-to-r from-green-400 to-emerald-500 bg-clip-text text-transparent'>
                 Create Account
             </h2>
