@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
@@ -9,9 +9,46 @@ const EmailVerificationPage = () => {
     const isLoading = false;
 
     const handleChange = (index, value) => {
+        const newCode = [...code];
+        // Handle paste event
 
+        if(value.length > 1){
+            const pastedValues = value.slice(0,6).split("");
+            for(let i = 0; i < 6; i++){
+                newCode[i] = pastedValues[i] || "";
+            }
+            setCode(newCode);
+            // Focus on the next input
+
+            const lastFilledIndex = newCode.findLastIndex((digit) => digit !== "");
+            const focusIndex = lastFilledIndex < 5 ? lastFilledIndex+1 : 5;
+            inputRefs.current[focusIndex].focus();
+        }else{
+            newCode[index] = value;
+            setCode(newCode);
+            if(value && index < 5){
+                inputRefs.current[index + 1].focus();
+            }
+        }
     }
-    const handleKeyDown = (index, e) => {}
+
+    const handleKeyDown = (index, e) => {
+        if(e.key === "Backspace" && !code[index] && index >0){
+            inputRefs.current[index - 1].focus();
+        }
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const verificationCode = code.join("");
+        console.log(`Verifying code submitted: ${verificationCode}`);
+    };
+    // Auto submit the form if all inputs are filled
+    useEffect(() => {
+        if(code.every(digit => digit !== '')){
+            handleSubmit(new Event('submit'));
+        }
+    },[code]);
   return (
     <div
         className='max-w-md w-full bg-gray-800 bg-opacity-50 backdrop-filter backdrop-blur-xl rounded-2xl shadow-xl overflow-hidden'
@@ -28,7 +65,7 @@ const EmailVerificationPage = () => {
             <p className='text-gray-400 text-center mb-6'>
                 Enter the 6-digit code we sent to your email
             </p>
-            <form className='space-y-6'>
+            <form onSubmit={handleSubmit} className='space-y-6'>
                 <div className='flex justify-between'>
                     {code.map((digit, index) =>(
                         <input
@@ -38,7 +75,7 @@ const EmailVerificationPage = () => {
                             maxLength='6'
                             value={digit}
                             onChange={(e) => handleChange(index,e.target.value)}
-                            onKeydown={(e)=> handleKeyDown(index, e)}
+                            onKeyDown={(e)=> handleKeyDown(index, e)}
                             className='w-12 h-12 text-center text-2xl font-bold bg-gray-700 text-white border-2 border-gray-600 rounded-lg focus:outline-none focus:border-yellow-500'
                          />
                     ))}
