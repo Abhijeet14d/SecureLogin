@@ -1,16 +1,27 @@
 import { motion } from 'framer-motion';
-import { Mail, User, Lock } from 'lucide-react';
+import { Mail, User, Lock, Loader } from 'lucide-react';
 import { useState } from 'react';
 import Input from '../components/Input';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import PasswordStrength from '../components/PasswordStrength';
+import { useAuthStore } from '../store/authStore';
 
 const SignupPage = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const { signup, error, isLoading } = useAuthStore();
+    const navigate = useNavigate();
+
     const handleSignup = async (e)=>{
         e.preventDefault();
+
+        try{
+            await signup(email, password, name);
+            navigate("/verifyEmail");
+        }catch(error){
+            console.error(error);
+        }
     }
   return (
     
@@ -50,7 +61,7 @@ const SignupPage = () => {
                     className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-400"
                  />
                  {/* Password strength meter */}
-                 {/* { error && <p className='text-red-500 font-semibold mt-2'>{error}</p>} */}
+                 { error && <p className='text-red-500 font-semibold mt-2'>{error}</p>}
                     <PasswordStrength password={password} />
                  <motion.button
                     className='mt-5 w-full py-3 bg-gradient-to-r from-green-400 to-emerald-600 text-white font-bold rounded-lg shadow-lg hover:from-green-600 hover:to-emerald-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2
@@ -58,7 +69,10 @@ const SignupPage = () => {
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     type='submit'
-                 > Sign Up</motion.button>
+                    disabled={isLoading}
+                 >
+                    { isLoading ? <Loader className='animate-spin mx-auto' size={24} /> : 'Sign Up' } 
+                 </motion.button>
             </form>
         </div>
         <div
