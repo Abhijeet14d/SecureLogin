@@ -2,6 +2,7 @@ import { Routes, Route } from 'react-router-dom';
 import SignupPage from './pages/SignupPage';
 import LoginPage from './pages/LoginPage';
 import EmailVerificationPage from './pages/EmailVerificationPage';
+import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import DashboardPage from './pages/DashboardPage';
 import LoadingSpinner from './components/LoadingSpinner';
 import { Toaster } from 'react-hot-toast';
@@ -33,7 +34,7 @@ const RedirectAuthenticatedUser = ({children}) =>{
 }
 
 function App() {
-  const { isCheckingAuth, checkAuth, isAuthenticated, user } = useAuthStore();
+  const { isCheckingAuth, checkAuth } = useAuthStore();
 
   useEffect(()=>{
     checkAuth();
@@ -53,6 +54,9 @@ function App() {
           <LoginPage />
           </RedirectAuthenticatedUser>} />
         <Route path='/verifyEmail' element={<EmailVerificationPage />} />
+        <Route path='/forgotPassword' element={<RedirectAuthenticatedUser>
+          <ForgotPasswordPage />
+        </RedirectAuthenticatedUser>} />
       </Routes>
       <Toaster />
     </div>

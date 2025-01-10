@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import axios from 'axios';
+import { response } from 'express';
 
 const API_URL = 'http://localhost:5000/api/auth';
 
@@ -65,6 +66,17 @@ export const useAuthStore = create((set) =>({
             });
         }catch(error){
             set({error: error.response.data.message || "Error logging out", isLoading:false});
+            throw error;
+        }
+    },
+
+    forgotPassword: async(email) =>{
+        set({ isLoading:true, error:null, message:null});
+        try{
+            await axios.post(`${API_URL}/forgotPassword`, {email});
+            set({ isLoading:false, message: response.data.message});
+        }catch(error){
+            set({error: error.response.data.message || "Error sending reset link", isLoading:false});
             throw error;
         }
     }
