@@ -1,6 +1,5 @@
 import { create } from 'zustand';
 import axios from 'axios';
-import { response } from 'express';
 
 const API_URL = 'http://localhost:5000/api/auth';
 
@@ -74,7 +73,7 @@ export const useAuthStore = create((set) =>({
     forgotPassword: async(email) =>{
         set({ isLoading:true, error:null, message:null });
         try{
-            await axios.post(`${API_URL}/forgotPassword`, {email});
+            const response = await axios.post(`${API_URL}/forgotPassword`, {email});
             set({ isLoading:false, message: response.data.message});
         }catch(error){
             set({error: error.response.data.message || "Error sending reset link", isLoading:false});
@@ -85,7 +84,7 @@ export const useAuthStore = create((set) =>({
     resetPassword: async(token, password) =>{
         set({ isLoading:true, error:null, message:null });
         try{
-            await axios.post(`${API_URL}/resetPassword/${token}`, {password});
+            const response = await axios.post(`${API_URL}/resetPassword/${token}`, {password});
             set({ isLoading:false, message: response.data.message});
         }catch(error){
             set({error: error.response.data.message || "Error resetting password", isLoading:false});
