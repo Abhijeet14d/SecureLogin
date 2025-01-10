@@ -5,8 +5,9 @@
   "main": "server/index.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon server/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "cross-env NODE_ENV=development nodemon server/index.js",
+    "start": "cross-env NODE_ENV=production node server/index.js",
+    "build": "npm install && npm install --prefix client && npm run build --prefix client"
   },
   "author": "Abhijeet Singh",
   "license": "ISC",
@@ -23,6 +24,7 @@
     "nodemailer": "^6.9.16"
   },
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "nodemon": "^3.1.7"
   }
 }
