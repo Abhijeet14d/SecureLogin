@@ -61,6 +61,8 @@ function App() {
         <Route path='/resetPassword/:token' element={<RedirectAuthenticatedUser>
           <ResetPasswordPage />
         </RedirectAuthenticatedUser>} />
+        {/**takes care of all the routes */}
+        <Route path='*' element={<Navigate to='/' replace />} />
       </Routes>
       <Toaster />
     </div>
