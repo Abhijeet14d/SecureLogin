@@ -13,10 +13,6 @@ app.use(cookieParser()); // allows us to parse incoming cookies
 
 app.use(cors({origin: "http://localhost:5173", credentials:true}));
 
-app.get('/',(req,res)=>{
-    res.send("Hello Abhijeet");
-});
-
 app.use("/api/auth",authRoutes);
 
 

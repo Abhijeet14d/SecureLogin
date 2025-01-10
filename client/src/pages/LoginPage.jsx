@@ -44,7 +44,7 @@ const LoginPage = () => {
               className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-400"
             />
             <div className="flex items-center mb-2">
-                <Link to='/forgot-password' className="text-green-400 hover:underline"
+                <Link to='/forgotPassword' className="text-green-400 hover:underline"
                 >Forgot Password?</Link>
             </div>
             {error && <p className="text-red-500 text-semibold mb-2">{error}</p>}

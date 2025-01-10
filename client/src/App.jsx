@@ -3,6 +3,7 @@ import SignupPage from './pages/SignupPage';
 import LoginPage from './pages/LoginPage';
 import EmailVerificationPage from './pages/EmailVerificationPage';
 import ForgotPasswordPage from './pages/ForgotPasswordPage';
+import ResetPasswordPage from './pages/ResetPasswordPage';
 import DashboardPage from './pages/DashboardPage';
 import LoadingSpinner from './components/LoadingSpinner';
 import { Toaster } from 'react-hot-toast';
@@ -56,6 +57,9 @@ function App() {
         <Route path='/verifyEmail' element={<EmailVerificationPage />} />
         <Route path='/forgotPassword' element={<RedirectAuthenticatedUser>
           <ForgotPasswordPage />
+        </RedirectAuthenticatedUser>} />
+        <Route path='/resetPassword/:token' element={<RedirectAuthenticatedUser>
+          <ResetPasswordPage />
         </RedirectAuthenticatedUser>} />
       </Routes>
       <Toaster />
